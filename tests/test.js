@@ -35,7 +35,6 @@ describe('test', function(){
     tests.forEach(function(test)
     {
         it('Correct output for ' +test.arg, function(){
-        	//console.log(myCode.enrichValueWithDecorators(test.arg))
             output =myCode.enrichValueWithDecorators(test.arg)
             output.should.be.a('Object')
             output.should.have.property("value").eql(test.value)
