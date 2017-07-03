@@ -16,19 +16,26 @@ class Grammar {
   	});
   }
 
+
+
   generateGrammar() {
+  //PEG.JS will use first word, so it have to be sorted array.
+	this.grammar=flatten(this.grammar)
+	this.grammar.sort(function(a, b) {return b.length - a.length || a.localeCompare(b);});
    return ` 
   Text
- 	 = NumberDecorators
-
-
+  	 = NumberDecorators
+     	/_? RangeFrom _? nr1:Number _? RangeTo _? nr2:NumberDecorators {return{FROM: {value:nr1, decorators:[]}, TO:nr2}}
+     
 
   NumberDecorators
  	 = 
- 	 _? nr:Number _? d1:Decorator _? d2:Decorator _? 	{return {value:nr, decorators:[d1,d2]}} //2kzł
- 	 / _? d1:Decorator _? nr:Number _? d2:Decorator _?	{return {value:nr, decorators:[d1,d2]}}	//k2euro
- 	 / _? d1:Decorator (_? nr:Number)? _?	{return {value:nr, decorators:[d1]}}	//D7		
- 	 / _? nr:Number _? d1:Decorator _?		{return {value:nr, decorators:[d1]}}	//5M , 5zł
+ 	  _? d1:Decorator _? nr:Number _? d2:Decorator	{return {value:nr, decorators:[d1,d2]}}	//k2euro
+ 	 	/ _? d1:Decorator (_? nr:Number)?	{return {value:nr, decorators:[d1]}}	//D7
+  	/ _? nr:Number _? d1:Decorator _? d2:Decorator	{return {value:nr, decorators:[d1,d2]}} //2kzł
+    / _? nr:Number _? d1:Decorator {return {value:nr, decorators:[d1]}}		//5M , 5zł
+
+   
    
    
         Number
@@ -42,13 +49,13 @@ class Grammar {
                 = [ \\r\\n\\t]+ {return null}
 
         Decorator
-								= deco:(\'`+flatten(this.grammar).join('\'/\'')+`\') {return deco}
+								= deco:(\'`+this.grammar.join('\'/\'')+`\') {return deco}
 
-         From
+         RangeFrom
          	= 	"from" {return "from"}
             	/"od"  {return "from"}
             
-         To
+         RangeTo
          	= 	"to"	{return "to"}
             	/"do"	{return "to"}
             

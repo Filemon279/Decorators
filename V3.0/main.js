@@ -21,5 +21,10 @@ function stubData(source)
 	return stub
 }
 
+//Nowa gramatyka + "decorator finder"
 let fieldParser = new FieldParser(stubData(time));
-fieldParser.parseField("234 lat")
+
+
+
+
+fieldParser.parseField("from 5 do 7 lat")
