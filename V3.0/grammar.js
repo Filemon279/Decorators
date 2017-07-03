@@ -1,4 +1,3 @@
-
 //Flattening arrays
 function flatten(arr) {
   return arr.reduce(function (flat, toFlatten) {
@@ -7,27 +6,30 @@ function flatten(arr) {
 }
 
 class Grammar {
-  constructor(decorators) {
+  constructor(decorators) 
+  {
    	this.grammar = []
    	var this_p = this;
   	decorators.forEach(function(stub)
   	{
   		this_p.grammar.push(stub["aliasList"])
   	});
-
-
   }
 
   generateGrammar() {
    return ` 
   Text
-                = 
-                _? nr:Number _? d1:Decorator _? d2:Decorator _? 		{return {value:nr, decorators:[d1,d2]}}
-                / _? d1:Decorator _? nr:Number _? d2:Decorator _?		{return {value:nr, decorators:[d1,d2]}}
-                / _? d1:Decorator (_? nr:Number)? _?	{return {value:nr, decorators:[d1]}}			
-                / _? nr:Number _? d1:Decorator _?		{return {value:nr, decorators:[d1]}}
+ 	 = NumberDecorators
 
 
+
+  NumberDecorators
+ 	 = 
+ 	 _? nr:Number _? d1:Decorator _? d2:Decorator _? 	{return {value:nr, decorators:[d1,d2]}} //2kzł
+ 	 / _? d1:Decorator _? nr:Number _? d2:Decorator _?	{return {value:nr, decorators:[d1,d2]}}	//k2euro
+ 	 / _? d1:Decorator (_? nr:Number)? _?	{return {value:nr, decorators:[d1]}}	//D7		
+ 	 / _? nr:Number _? d1:Decorator _?		{return {value:nr, decorators:[d1]}}	//5M , 5zł
+   
    
         Number
                 = d:Digit+ ("."/",") d2:Digit+ {return d.join("")+"."+d2.join("")}

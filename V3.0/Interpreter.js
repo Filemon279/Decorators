@@ -1,6 +1,12 @@
+var Grammar = require('./grammar.js');
+var peg = require("pegjs");
+
+
 class FieldParser {
   constructor(decoratorsDefiniArray) {
-    this.decoratorArray = decoratorsDefiniArray;
+    let grama = new Grammar(decoratorsDefiniArray);
+    grama.generateGrammar();
+    this.parser = peg.generate(grama.generateGrammar());
   }
 
   // in : string with field value
@@ -16,7 +22,7 @@ class FieldParser {
   // no value  ...
 
   parseField(fieldValue) {
-    return { unaryValue : { value : this.decoratorArray, decorators : [ "iriTest"] } }
+    console.log(this.parser.parse(fieldValue))
   }
 }
 
