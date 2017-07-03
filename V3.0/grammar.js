@@ -18,11 +18,6 @@ class Grammar {
 
   }
 
-  printList()
-  {
-  	console.log(this.grammar)
-  }
-
   generateGrammar() {
    return ` 	
   Text 
