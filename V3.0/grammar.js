@@ -19,22 +19,44 @@ class Grammar {
   }
 
   generateGrammar() {
-   return ` 	
-  Text 
-		= _? Number _? Decorator?
-	    
-	Number 	
-		= Digit+
-	    
-	Digit
-		= [0-9]
-	    
-	_ "whitespace"
-		= [ \\n\\t]+ {return "space"}
+   return ` 
+  Text
+                = 
+                _? nr:Number _? d1:Decorator _? d2:Decorator _? 		{return {value:nr, decorators:[d1,d2]}}
+                / _? d1:Decorator _? nr:Number _? d2:Decorator _?		{return {value:nr, decorators:[d1,d2]}}
+                / _? d1:Decorator (_? nr:Number)? _?	{return {value:nr, decorators:[d1]}}			
+                / _? nr:Number _? d1:Decorator _?		{return {value:nr, decorators:[d1]}}
 
-	Decorator
-		= deco:\'`+flatten(this.grammar).join('\'/\'')+`\'+  {return deco.join("")}
 
+   
+        Number
+                = d:Digit+ ("."/",") d2:Digit+ {return d.join("")+"."+d2.join("")}
+                / d:Digit+ {return d.join("")}
+
+        Digit
+                = [0-9]
+
+        _ "whitespace"
+                = [ \\r\\n\\t]+ {return null}
+
+        Decorator
+								= deco:(\'`+flatten(this.grammar).join('\'/\'')+`\') {return deco}
+
+         From
+         	= 	"from" {return "from"}
+            	/"od"  {return "from"}
+            
+         To
+         	= 	"to"	{return "to"}
+            	/"do"	{return "to"}
+            
+         Range 
+         	= "nie mniej"	{return ">="}
+            /"nie mniej niż"{return ">="}
+            /"min"	{return ">="}
+            /"max"	{return "<="}
+            /"min."	{return ">="}
+            /"max."	{return "<="}
 `//End
   }
 }

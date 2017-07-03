@@ -33,4 +33,4 @@ function stubData(source)
 }
 
 
-console.log(parser.parse("   56456mld"))
+console.log(parser.parse("  k 564.56mld"))
