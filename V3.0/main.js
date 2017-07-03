@@ -10,12 +10,16 @@ var time = require("./Decorators_Time.json");
 var peg = require("pegjs");
 
 
+
+
 let parse = new FieldParser();
 let grama = new Grammar(stubData(time));
-	grama.printList()
 
+grama.printList()
 
+//grama.generateGrammar()
 var parser = peg.generate(grama.generateGrammar());
+
 
 
 //Returning stubData
@@ -32,4 +36,4 @@ function stubData(source)
 }
 
 //console.log()
-//console.log(parser.parse("   56456"))
+console.log(parser.parse("   56456miesięcy"))

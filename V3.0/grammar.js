@@ -1,4 +1,10 @@
 
+//Flattening arrays
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
 
 class Grammar {
   constructor(decorators) {
@@ -18,7 +24,7 @@ class Grammar {
   }
 
   generateGrammar() {
-    return ` 	
+   return ` 	
   Text 
 		= _? Number _? Decorator?
 	    
@@ -32,7 +38,7 @@ class Grammar {
 		= [ \\n\\t]+ {return "space"}
 
 	Decorator
-		= deco:["zł","euro"]+ {return deco.join("")}
+		= deco:\'`+flatten(this.grammar).join('\'/\'')+`\'+  {return deco.join("")}
 
 `//End
   }
