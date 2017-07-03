@@ -1,6 +1,6 @@
 class FieldParser {
   constructor(decoratorsDefiniArray) {
-    this.decoratorArray = decoratorsArray
+    this.decoratorArray = decoratorsDefiniArray;
   }
 
   // in : string with field value
@@ -16,7 +16,10 @@ class FieldParser {
   // no value  ...
 
   parseField(fieldValue) {
-
-    return { unaryValue : { value : 35, decorators : [ "iriTest"] } }
+    return { unaryValue : { value : this.decoratorArray, decorators : [ "iriTest"] } }
   }
 }
+
+
+//Required to import this class
+module.exports = FieldParser;
