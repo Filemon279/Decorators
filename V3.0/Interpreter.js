@@ -5,8 +5,7 @@ var peg = require("pegjs");
 class FieldParser {
   constructor(decoratorsDefiniArray) {
     let grama = new Grammar(decoratorsDefiniArray);
-    grama.generateGrammar();
-    this.parser = peg.generate(grama.generateGrammar());
+    this.parser = peg.generate(grama.simpleGrammar());
   }
 
   
@@ -14,10 +13,11 @@ class FieldParser {
   parseField(fieldValue) {
         try {
         console.log(this.parser.parse(fieldValue))
+        return this.parser.parse(fieldValue)
         } catch(parseError) {
-        console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
+          return []
+        //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
         }
-    
   }
 }
 

@@ -4,6 +4,7 @@ var FieldParser = require('./interpreter.js');
 var currency = require("./Decorators_Currency.json");
 var scalar = require("./Decorators_Scalar.json");
 var time = require("./Decorators_Time.json");
+var all = lower(currency.concat(scalar).concat(time))
 
 
 
@@ -22,9 +23,29 @@ function stubData(source)
 }
 
 //Nowa gramatyka + "decorator finder"
-let fieldParser = new FieldParser(stubData(time));
+let fieldParser = new FieldParser(stubData(all));
 
 
+//Dealing with Up & Low Case
+function lower(obj) {
+  for (var prop in obj) {
+  if (typeof obj[prop] === 'string') {
+    obj[prop] = obj[prop].toLowerCase();
+  }
+  if (typeof obj[prop] === 'object') {
+    lower(obj[prop]);
+    }
+  }
+  return obj;
+}
 
+function enrichValueWithDecorators(value)
+{
+var TextToParse = "3,5%"
+return fieldParser.parseField(value.toLowerCase())
+}
 
-fieldParser.parseField("from 5 do 7 lat")
+if(typeof exports !== 'undefined') {
+    exports.enrichValueWithDecorators = enrichValueWithDecorators;
+}
+
