@@ -39,12 +39,18 @@ function lower(obj) {
   return obj;
 }
 
+enrichValueWithDecorators("599 k eur")
+
+
+//Main function
 function enrichValueWithDecorators(value)
 {
 var TextToParse = "3,5%"
 return fieldParser.parseField(value.toLowerCase())
 }
 
+
+//Mocha
 if(typeof exports !== 'undefined') {
     exports.enrichValueWithDecorators = enrichValueWithDecorators;
 }

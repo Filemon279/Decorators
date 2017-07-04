@@ -11,30 +11,38 @@ function flatten(arr) {
 
 class FieldParser {
   constructor(decoratorsDefiniArray) {
-    let grama = new Grammar(decoratorsDefiniArray);
-    this.parserComplex = peg.generate(grama.complexGrammar());  
-    this.parser = peg.generate(grama.simpleGrammar());
+    this.grama = new Grammar(decoratorsDefiniArray);    //let
+    this.parserComplex = peg.generate(this.grama.complexGrammar());  
+    this.parser = peg.generate(this.grama.simpleGrammar());
 
   }
 
+
+
+
+
+
   parseComplexField(fieldValue) {
-        try {
-        console.log(this.parserComplex.parse(fieldValue))
-        return this.parserComplex.parse(fieldValue)
-        } catch(parseError) {
-        //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
-        return []
-        }
+      try {
+      //console.log(this.parserComplex.parse(fieldValue))
+      this.parserComplex.parse(fieldValue)
+      return this.parserComplex.parse(fieldValue)
+      } catch(parseError) {
+      //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
+      return []
+      }
   } 
 
   parseField(fieldValue) {
-        try {
-        console.log(this.parser.parse(fieldValue))
-        return this.parser.parse(fieldValue)
-        } catch(parseError) {
-        return this.parseComplexField(fieldValue)
-        //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
-        }
+      try {
+      //console.log(this.parser.parse(fieldValue))
+      this.parserComplex.parse(fieldValue)
+      return this.parser.parse(fieldValue)
+      } catch(parseError) {
+      //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
+      return this.parseComplexField(fieldValue)
+      
+      }
   }
 
 
