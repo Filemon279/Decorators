@@ -113,7 +113,7 @@ class Grammar {
 				/ 	_ d1:Decorator _	{return {value:"", decorators:[d1]}}
 
 		CommaSeparated
-				= _ w:(RangeTo/RangeFrom/Range/SingleNumber/SimpleDecorators/Number/NumberDecorators/Comment)+ _ "," {return {value:w, decorators:"AND"}}
+				= _ w:(RangeTo/RangeFrom/Range/SingleNumber/SimpleDecorators/Number/NumberDecorators/Comment)+ _ "," {return {value:w, decorators:","}}
 				/ _ w:(RangeTo/RangeFrom/Range/SingleNumber/SimpleDecorators/Number/NumberDecorators/Comment)+ _	{return w}
 
 		Number
