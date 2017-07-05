@@ -42,7 +42,7 @@ class FieldParser {
       return this.parserComplex.parse(fieldValue)
       } catch(parseError) {
       if(fieldValue!="!end!") return this.parseField(lookForGramma(fieldValue))
-      else return []
+      return []
       }
   } 
 

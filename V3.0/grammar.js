@@ -109,7 +109,7 @@ class Grammar {
 		Text
 				=   
 				Comment
-				/c:CommaSeparated* {return c[0]}
+				/c:CommaSeparated* {return c}
 				/NumberDecorators
 			
 		SimpleDecorators
