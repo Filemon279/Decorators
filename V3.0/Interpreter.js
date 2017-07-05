@@ -1,6 +1,9 @@
 var Grammar = require('./grammar.js');
 var peg = require("pegjs");
 
+////////////////////////////////////
+//        Flattening array        //
+////////////////////////////////////
 function flatten(arr) {
   return arr.reduce(function (flat, toFlatten) {
     return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
@@ -8,7 +11,9 @@ function flatten(arr) {
 }
 
 
-
+////////////////////////////////////
+//         Parsing Class          //
+////////////////////////////////////
 class FieldParser {
   constructor(decoratorsDefiniArray) {
     this.grama = new Grammar(decoratorsDefiniArray);    //let
@@ -18,28 +23,28 @@ class FieldParser {
   }
 
 
-
-
-
-
+  //////////////////////////////////////////////////////
+  //  Parsing Comples Fields - when parseField fails  //
+  //////////////////////////////////////////////////////
   parseComplexField(fieldValue) {
       try {
-      //console.log(this.parserComplex.parse(fieldValue))
       this.parserComplex.parse(fieldValue)
       return this.parserComplex.parse(fieldValue)
       } catch(parseError) {
-      //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
+      //console.log(parseError)
       return []
       }
   } 
 
+  ////////////////////////////////////
+  //         Simple Parsing         //
+  ////////////////////////////////////
   parseField(fieldValue) {
       try {
-      //console.log(this.parser.parse(fieldValue))
       this.parserComplex.parse(fieldValue)
       return this.parser.parse(fieldValue)
       } catch(parseError) {
-      //console.log(parseError) //console.log("Error while parsing: \'",fieldValue,"\'")
+      //console.log(parseError)
       return this.parseComplexField(fieldValue)
       
       }

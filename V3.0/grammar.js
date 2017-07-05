@@ -5,32 +5,43 @@ function flatten(arr) {
   }, []);
 }
 
+
+////////////////////////////////////
+// 		Generating Grammar Class    //
+////////////////////////////////////
 class Grammar {
   constructor(decorators) 
   {
   	this.decorators = decorators
    	this.grammar = []
    	var this_p = this;
-  	this.decorators.forEach(function(stub)
-  	{
-  		this_p.grammar.push(stub["aliasList"])
-  	});
+
+  	//Make stand-alone list of aliasList
+  	this.decorators.forEach(function(stub){this_p.grammar.push(stub["aliasList"])})
+  	//Make if flat (flat array in array)
   	this.grammar=flatten(this.grammar)
+  	//Sort it LONGER -> SORTER - For PEG.js
 		this.grammar.sort(function(a, b) {return b.length - a.length || a.localeCompare(b);});
+		//Assign return to every alias
 		this.GenerateReturns()
   }
 
+  ////////////////////////////////////
+	//     Match Decorator and IRI  	//
+	////////////////////////////////////
   getIRI(decorator)
   {
-  	//ForEach in this case will be to slower, since it wont break
   	var decorators=[]
   	this.decorators.forEach(function(item){ {if(item["aliasList"].indexOf(decorator)>-1) decorators.push(item["decoratorIRI"])}})
+  	//If more then one match, point it out by "/" sign beetwen them.
   	return decorators.join("/")
   }
 
 
 
-  //This function generate return in gramatics, every decorator has own return value. 
+	/////////////////////////////////////////////////
+	//  Generate part of grammar - alias & return  //
+	/////////////////////////////////////////////////
   GenerateReturns()
   {
   	this.stubs=""
@@ -42,10 +53,10 @@ class Grammar {
   	})
   }
 
-
+  ////////////////////////////////////
+	//    Returning Simple Grammar    //
+	////////////////////////////////////
   simpleGrammar() {
-
-  //PEG.JS will use first word, so it have to be sorted array.
    return ` 
 		Text
 				=       
@@ -66,8 +77,8 @@ class Grammar {
 
 
 		Number
-				= d:Digit+ ("."/",") d2:Digit+ {return d.join("")+"."+d2.join("")}
-				/ d:Digit+ {return d.join("")}
+				= d:Digit+ ("."/",") d2:Digit+ {return parseFloat(d.join("")+"."+d2.join(""))}
+				/ d:Digit+ {return parseFloat(d.join(""))}
 
 		Digit
 				= [0-9]
@@ -80,12 +91,12 @@ class Grammar {
 				= `+this.stubs+`
 
 
-`
-
-//End
-  }
+`}
 
 
+  ////////////////////////////////////
+	//    Returning Complex Grammar   //
+	////////////////////////////////////
   complexGrammar()
   {
   	return `
@@ -117,8 +128,8 @@ class Grammar {
 				/ _ w:(RangeTo/RangeFrom/Range/SingleNumber/SimpleDecorators/Number/NumberDecorators/Comment)+ _	{return w}
 
 		Number
-				= d:Digit+ ("."/",") d2:Digit+ {return d.join("")+"."+d2.join("")}
-				/ d:Digit+ {return d.join("")}
+				= d:Digit+ ("."/",") d2:Digit+ {return parseFloat(d.join("")+"."+d2.join(""))}
+				/ d:Digit+ {return parseFloat(d.join(""))}
 
 		Digit
 				= [0-9]
@@ -169,5 +180,7 @@ class Grammar {
   	`
   }
 }
+
+
 
 module.exports = Grammar;

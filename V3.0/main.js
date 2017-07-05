@@ -7,9 +7,9 @@ var time = require("./Decorators_Time.json");
 var all = lower(currency.concat(scalar).concat(time))
 
 
-
-
-//Returning stubData
+////////////////////////////////////
+//   		  mock up stubData	    	//
+////////////////////////////////////
 function stubData(source)
 {
 	var stub=[]
@@ -22,33 +22,34 @@ function stubData(source)
 	return stub
 }
 
-//Nowa gramatyka + "decorator finder"
-let fieldParser = new FieldParser(stubData(all));
 
-
-//Dealing with Up & Low Case
-function lower(obj) {
-  for (var prop in obj) {
-  if (typeof obj[prop] === 'string') {
-    obj[prop] = obj[prop].toLowerCase();
-  }
-  if (typeof obj[prop] === 'object') {
-    lower(obj[prop]);
-    }
+////////////////////////////////////
+//     Recursion all lowerCase    //
+////////////////////////////////////
+function lower(obj) 
+{
+  for (var a in obj) 
+  {
+  if (typeof obj[a] === 'string') obj[a] = obj[a].toLowerCase();
+  if (typeof obj[a] === 'object') lower(obj[a]);
   }
   return obj;
 }
 
-//enrichValueWithDecorators("(od 175 do 250 USD)")
-
-//Ucinanie poczatku tekstu by znalezc obslugiwany input (uciety poczatek interpretowany jest jako komentarz)
+////////////////////////////////////
+//  Cut Begining and Check again  //
+////////////////////////////////////
 function lookForGramma(input)
 {
 return [input[0]+=input[1].slice(0,input[1].indexOf(" ")+1),(input[1].indexOf(" ")>-1)?input[1].slice(input[1].indexOf(" ")+1):"end"]
 }
 
 
-//Main function
+
+let fieldParser = new FieldParser(stubData(all));
+////////////////////////////////////
+//  				Main Function 				//
+////////////////////////////////////
 function enrichValueWithDecorators(value)
 {
 var data = ["",value]
@@ -59,8 +60,9 @@ return out
 }
 
 
-
-//Mocha
+////////////////////////////////////
+//  	Export for MOCHA TESTS  		//
+////////////////////////////////////
 if(typeof exports !== 'undefined') {
     exports.enrichValueWithDecorators = enrichValueWithDecorators;
 }
