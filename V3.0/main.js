@@ -39,15 +39,25 @@ function lower(obj) {
   return obj;
 }
 
-enrichValueWithDecorators("599 k eur")
+//enrichValueWithDecorators("(od 175 do 250 USD)")
+
+//Ucinanie poczatku tekstu by znalezc obslugiwany input (uciety poczatek interpretowany jest jako komentarz)
+function lookForGramma(input)
+{
+return [input[0]+=input[1].slice(0,input[1].indexOf(" ")+1),(input[1].indexOf(" ")>-1)?input[1].slice(input[1].indexOf(" ")+1):"end"]
+}
 
 
 //Main function
 function enrichValueWithDecorators(value)
 {
-var TextToParse = "3,5%"
-return fieldParser.parseField(value.toLowerCase())
+var data = ["",value]
+var out;
+while((out = fieldParser.parseField(data[1].toLowerCase())).length==0 && data[1]!="end")	{data=lookForGramma(data);}
+if(data[0]) out.beforeComment = data[0].replace(/\s+/, "") 
+return out
 }
+
 
 
 //Mocha
@@ -55,3 +65,23 @@ if(typeof exports !== 'undefined') {
     exports.enrichValueWithDecorators = enrichValueWithDecorators;
 }
 
+
+
+/*
+UWAGI/PYTANIA:
+
+1. Zapis kwot: 1.000 zł to nie to samo co 1,000zł - Przecinek interpretujemy jako grosze | kropke jako nieznaczący dekorator (pojawiający się przy tysiącach, milionach, miliardach)?
+1. Występują przypadki separowania groszy przecinkiem oraz kropką (WORD - DOLAR)
+
+2. "-" przed Kwotą, stosuje się jako swoiste rozpoczęcie i tutaj pytanie "Uwzgledniamy wartosci ujemne?", jesli tak to "-" jest rozporzęciem czy minusem?
+
+3. Komentarz ("comment: 'od 5 do 20 euro' ") <- może być poddany osobnemu parsowaniu
+
+
+-£127.54 
+-127,54 F
+kr-127,54
+€ 127,54-
+($127.54)
+
+*/

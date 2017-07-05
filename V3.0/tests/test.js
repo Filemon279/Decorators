@@ -21,9 +21,9 @@ describe('test', function(){
 	{arg: "200 zł"									,output: [{ value: '200', decorators: [ 'iri129' ] }]},
 	{arg: "400 zł"									,output: [{ value: '400', decorators: [ 'iri129' ] }]},
 	{arg: "1 kEUR"									,output: [{ value: '1', decorators: [ 'iri2','iri112' ] }]},
-	{arg: "5M"											,output: [{ value: '5', decorators: [ 'iri3' ] }]},//Ma wyswietlac miliony i miesiace
+	{arg: "5M"											,output: [{ value: '5', decorators: [ 'iri3/iri12' ] }]},
 	{arg: "7D"											,output: [{ value: '7', decorators: [ 'iri10' ] }]},
-	{arg: "M $5"										,output: [{ value: '5', decorators: [ 'iri3','iri140' ] }]},
+	{arg: "M $5"										,output: [{ value: '5', decorators: [ 'iri3/iri12','iri140',] }]},
 	{arg: "bez ograniczeń"					,output: [{ value: '', decorators: [ 'iri8' ] }]},
 	{arg: "-"												,output: [{ value: '', decorators: [ 'iri9' ] }]},
 	{arg: "$7k"											,output: [{ value: '7', decorators: [ 'iri140','iri2' ] }]},
@@ -31,7 +31,7 @@ describe('test', function(){
 	{arg: "0,1‰"										,output: [{ value: '0.1', decorators: [ 'iri7' ] }]},
 
 	//Those can't be parsed by SimpleGramma so are parsed by ComplexGramma (with comments, from, to, min. max. etc.) if not found return "[]"
-	{arg: "kwota 234.45 złotych"		,output: [[]]},	//Here, I would rather choose word cuting to get 234.45 złotych then making special grammar.
+	{arg: "kwota 234.45 złotych"		,output: [{beforeComment: "kwota", value:"234.45", decorators: ['iri129']}]},	//Here, I would rather choose word cuting to get 234.45 złotych then making special grammar.
 	{arg: "from 5 to 7 zł"					,output: [{range: "FROM" },{ value: "5" }, { range: "TO" }, { value: "7", decorators: [ "iri129" ]}]},
 
 	{arg: "0.1%, nie mniej niż 5 zł",output: [{ value: [{value: "0.1",decorators: ["iri6"]}],decorators: "AND"},{value: [{operand: ">="},{decorators: ["iri140"], value: "5"}]}]},
@@ -48,7 +48,7 @@ describe('test', function(){
     describe('Testing enrichValueWithDecorators(value)', function(){
     tests.forEach(function(test)
     {
-        it('Correct output for ' +test.arg, function(){
+        it('Test passed: ' +test.arg, function(){
             output=myCode.enrichValueWithDecorators(test.arg)
             //console.log(output," : ",test.output[0])
 						if(output.length>=1) output[0].should.eql(test.output[0])

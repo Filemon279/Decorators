@@ -17,19 +17,21 @@ class Grammar {
   	});
   	this.grammar=flatten(this.grammar)
 		this.grammar.sort(function(a, b) {return b.length - a.length || a.localeCompare(b);});
-		this.test()
+		this.GenerateReturns()
   }
 
   getIRI(decorator)
   {
   	//ForEach in this case will be to slower, since it wont break
-  	
-  	for(var i=0;i<this.decorators.length;i++) {if(this.decorators[i]["aliasList"].indexOf(decorator)>-1) return this.decorators[i]["decoratorIRI"]}
+  	var decorators=[]
+  	this.decorators.forEach(function(item){ {if(item["aliasList"].indexOf(decorator)>-1) decorators.push(item["decoratorIRI"])}})
+  	return decorators.join("/")
   }
 
 
 
-  test()
+  //This function generate return in gramatics, every decorator has own return value. 
+  GenerateReturns()
   {
   	this.stubs=""
   	var parent = this
@@ -37,7 +39,6 @@ class Grammar {
   	{
   		if(parent.stubs=="") parent.stubs+="'"+item+"' {return '"+parent.getIRI(item)+"'}\n"
   		else parent.stubs+="/'"+item+"' {return '"+parent.getIRI(item)+"'}\n"
-
   	})
   }
 
@@ -70,6 +71,7 @@ class Grammar {
 
 		Digit
 				= [0-9]
+				/ _ d:[0-9] {return d}
 
 		_ "whitespace"
 				= [ \\r\\n\\t]* {return null}
@@ -120,6 +122,7 @@ class Grammar {
 
 		Digit
 				= [0-9]
+				/ _ d:[0-9] {return d}
 
 		_ "whitespace"
 				= [ \\r\\n\\t]* {return null}
