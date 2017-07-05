@@ -36,14 +36,6 @@ function lower(obj)
   return obj;
 }
 
-////////////////////////////////////
-//  Cut Begining and Check again  //
-////////////////////////////////////
-function lookForGramma(input)
-{
-return [input[0]+=input[1].slice(0,input[1].indexOf(" ")+1),(input[1].indexOf(" ")>-1)?input[1].slice(input[1].indexOf(" ")+1):"end"]
-}
-
 
 
 let fieldParser = new FieldParser(stubData(all));
@@ -52,11 +44,7 @@ let fieldParser = new FieldParser(stubData(all));
 ////////////////////////////////////
 function enrichValueWithDecorators(value)
 {
-var data = ["",value]
-var out;
-while((out = fieldParser.parseField(data[1].toLowerCase())).length==0 && data[1]!="end")	{data=lookForGramma(data);}
-if(data[0]) out.beforeComment = data[0].replace(/\s+/, "") 
-return out
+return fieldParser.parseField(value.toLowerCase())
 }
 
 

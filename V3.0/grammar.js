@@ -59,8 +59,9 @@ class Grammar {
   simpleGrammar() {
    return ` 
 		Text
-				=       
-				NumberDecorators
+				=   
+        nr:NumberDecorators _ cm:Comment {return [nr, cm]}
+				/nr:NumberDecorators {return nr}
 
 
 
@@ -86,6 +87,10 @@ class Grammar {
 
 		_ "whitespace"
 				= [ \\r\\n\\t]* {return null}
+
+		Comment
+				= "("_ txt:[a-zA-Z0-9  \\r\\n\\tZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+ _")" {return {comment: txt.join("")}}
+				/ _ "+" _ txt:[a-zA-Z0-9  \\r\\n\\tZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+ {return {comment: "+ " + txt.join("")}}				
 
 		Decorator
 				= `+this.stubs+`
@@ -161,7 +166,7 @@ class Grammar {
 				__ nr:Number __ d1:Decorator EOF  {return {value:nr, decorators:[d1]}}		//5M , 5zł
 				/__ nr:Number __ d1:Decorator __  {return {value:nr, decorators:[d1]}}		//5M , 5zł
 				/	__ d1:Decorator __ nr:Number __	{return {value:nr, decorators:[d1]}}	//D7
-				/__ nr:(Number)+ __ {return {value: nr.join("")}}
+				/__ nr:(Number)+ __ {return {value: parseFloat(nr.join(""))}}
 
 
 		Comment

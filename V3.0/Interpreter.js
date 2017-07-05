@@ -11,6 +11,17 @@ function flatten(arr) {
 }
 
 
+/////////     PROTOTYPE   //////////
+////////////////////////////////////
+//  Cut Begining and Check again  //
+////////////////////////////////////
+function lookForGramma(input)
+{
+return (input.indexOf(" ")>-1)?input.slice(input.indexOf(" ")+1):"!end!"
+}
+
+
+
 ////////////////////////////////////
 //         Parsing Class          //
 ////////////////////////////////////
@@ -28,11 +39,10 @@ class FieldParser {
   //////////////////////////////////////////////////////
   parseComplexField(fieldValue) {
       try {
-      this.parserComplex.parse(fieldValue)
       return this.parserComplex.parse(fieldValue)
       } catch(parseError) {
-      //console.log(parseError)
-      return []
+      if(fieldValue!="!end!") return this.parseField(lookForGramma(fieldValue))
+      else return []
       }
   } 
 
@@ -41,7 +51,7 @@ class FieldParser {
   ////////////////////////////////////
   parseField(fieldValue) {
       try {
-      this.parserComplex.parse(fieldValue)
+      console.log("parsing: ",fieldValue)
       return this.parser.parse(fieldValue)
       } catch(parseError) {
       //console.log(parseError)
