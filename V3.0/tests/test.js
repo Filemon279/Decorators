@@ -34,10 +34,10 @@ describe('test', function(){
 	{arg: "kwota 234.45 złotych"		,output: [{beforeComment: "kwota", value:"234.45", decorators: ['iri129']}]},	//Here, I would rather choose word cuting to get 234.45 złotych then making special grammar.
 	{arg: "from 5 to 7 zł"					,output: [{range: "FROM" },{ value: "5" }, { range: "TO" }, { value: "7", decorators: [ "iri129" ]}]},
 
-	{arg: "0.1%, nie mniej niż 5 zł",output: [{ value: [{value: "0.1",decorators: ["iri6"]}],decorators: "AND"},{value: [{operand: ">="},{decorators: ["iri140"], value: "5"}]}]},
-	{arg: "2%, min. $1"							,output: [{ value: [{value: "2",decorators: ["iri6"]}],decorators: "AND"},{value: [{operand: ">="},{decorators: ["iri140"], value: "1"}]}]},
+	{arg: "0.1%, nie mniej niż 5 zł",output: [{ value: [{value: "0.1",decorators: ["iri6"]}],decorators: ","},{value: [{operand: ">="},{decorators: ["iri140"], value: "5"}]}]},
+	{arg: "2%, min. $1"							,output: [{ value: [{value: "2",decorators: ["iri6"]}],decorators: ","},{value: [{operand: ">="},{decorators: ["iri140"], value: "1"}]}]},
 	{arg: "12 zł *)"								,output: [[]]},	//Here, I would rather choose word cuting to get 234.45 złotych then making special grammar.
-	{arg: "2% (dla kart w PLN), 3% (dla kart w EUR i USD)",output: [{ value: [ { value: "2", decorators: [ "iri6" ] }, { comment: "dla kart w pln" } ], decorators: "AND" }, { value: [ { value: "3", decorators: [ "iri6" ] }, { comment: "dla kart w eur i usd" }] }]},	//Here, I would rather choose word cuting to get 234.45 złotych then making special grammar. AND for many more examples
+	{arg: "2% (dla kart w PLN), 3% (dla kart w EUR i USD)",output: [{ value: [ { value: "2", decorators: [ "iri6" ] }, { comment: "dla kart w pln" } ], decorators: "," }, { value: [ { value: "3", decorators: [ "iri6" ] }, { comment: "dla kart w eur i usd" }] }]},	//Here, I would rather choose word cuting to get 234.45 złotych then making special grammar. AND for many more examples
 	{arg: "50 zł + koszty innych bankw"										,output: [ { value: "50", decorators: [ "iri129" ] }, { comment: "+ koszty innych bankw" } ]},
 
 	//"według kosztów rzeczywistych (od 175 do 250 USD)" <- Same as two tests with output [] <- function to get "od 175 do 250 USD" and use rest as comment
