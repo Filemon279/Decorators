@@ -68,7 +68,7 @@ describe('test', function(){
     {
         it('Test passed: ' +test.arg, function(){
             output=myCode.enrichValueWithDecorators(test.arg)
-            console.log(output," : ",test.output)
+            //console.log(output," : ",test.output)
 						if(output.length>=1) output.should.eql(test.output)//," |",output," : ",test.output).should.eql(true)//console.log(test.output.some(function(item){console.log("O: ",output.some(function(i){true}))}))
 						else output.should.eql(test.output[0])	
         })

@@ -51,7 +51,6 @@ class FieldParser {
   ////////////////////////////////////
   parseField(fieldValue) {
       try {
-      console.log("parsing: ",fieldValue)
       return this.parser.parse(fieldValue)
       } catch(parseError) {
       //console.log(parseError)
