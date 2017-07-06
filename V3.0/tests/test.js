@@ -1,8 +1,8 @@
-var expect = require('chai').expect
-var equal = require('chai').equale
+//var expect = require('chai').expect
+//var equal = require('chai').equale
 var myCode = require('../main')
 let chai = require('chai');
-let should = chai.should();
+//let should = chai.should();
 
 function flatten(arr) {
 	if(Array.isArray(arr)){
@@ -15,7 +15,7 @@ function flatten(arr) {
 
 
 var expect = chai.expect;
-var assert = chai.assert;
+//var assert = chai.assert;
 
 describe('test', function(){
 
