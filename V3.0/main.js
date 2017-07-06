@@ -4,7 +4,7 @@ var FieldParser = require('./interpreter.js');
 var currency = require("./Decorators_Currency.json");
 var scalar = require("./Decorators_Scalar.json");
 var time = require("./Decorators_Time.json");
-var all = lower(currency.concat(scalar).concat(time))
+var all = currency.concat(scalar).concat(time)
 
 
 ////////////////////////////////////
@@ -37,14 +37,11 @@ function lower(obj)
 }
 
 
-
-let fieldParser = new FieldParser(stubData(all));
-////////////////////////////////////
-//  				Main Function 				//
-////////////////////////////////////
-function enrichValueWithDecorators(value)
-{
-return fieldParser.parseField(value.toLowerCase())
+class Decorator {
+  extractValue(value){
+	var fieldParser = new FieldParser(stubData(lower(all)));
+	return fieldParser.parseField(value.toLowerCase())
+  }
 }
 
 
@@ -52,7 +49,7 @@ return fieldParser.parseField(value.toLowerCase())
 //  	Export for MOCHA TESTS  		//
 ////////////////////////////////////
 if(typeof exports !== 'undefined') {
-    exports.enrichValueWithDecorators = enrichValueWithDecorators;
+    exports.decorator = new Decorator();
 }
 
 
